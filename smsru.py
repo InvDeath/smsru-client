@@ -106,10 +106,10 @@ class Client(object):
             return None
         try:
             config = {
-                'key': dj_settings.SMS_KEY,
-                'sender': dj_settings.SMS_KEY_SENDER,
-                'login': dj_settings.SMS_KEY_LOGIN,
-                'password': dj_settings.SMS_KEY_PASSWORD,
+                'key': dj_settings.SMS_RU_KEY,
+                'sender': dj_settings.SMS_RU_SENDER,
+                'login': dj_settings.SMS_RU_LOGIN,
+                'password': dj_settings.SMS_RU_PASSWORD,
             }
         except:
             return None
