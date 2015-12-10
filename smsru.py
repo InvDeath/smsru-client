@@ -91,14 +91,29 @@ class Unavailable(Exception):
 
 
 class Client(object):
-    def __init__(self):
-        self.config = self._load_config()
+    def __init__(self, dj_settings=None):
+        self.config = self._config_from_django_settings(dj_settings)
+        self.config = self.config and self.config or self._load_config()
         if self.config is None:
             raise NotConfigured("Config file not found, options: " + " ".join(CONFIG_FILES))
         if "key" not in self.config:
             raise NotConfigured("API key not set.")
         self._token = None
         self._token_ts = 0
+
+    def _config_from_django_settings(dj_settings):
+        if not dj_settings:
+            return None
+        try:
+            config = {
+                'key': dj_settings.SMS_RU_KEY,
+                'sender': dj_settings.SMS_KEY_SENDER,
+                'login': dj_settings.SMS_KEY_LOGIN,
+                'password': dj_settings.SMS_KEY_PASSWORD,
+            }
+        except:
+            return None
+        return config
 
     def _load_config(self):
         for fn in CONFIG_FILES:
